@@ -2,7 +2,18 @@
   "name": "angular",
   "description": "Created pages using json schema and AngularJS!",
   "main": "dist/angular-rest.js",
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "keywords": [
+    "angular",
+    "angularjs",
+    "restful",
+    "rest",
+    "api"
+  ],
+  "homepage": "https://github.com/picheli20/angular-rest",
+  "authors": [
+    "Fábio Picheli"
+  ],
   "dependencies": {
     "angular-ui-router": "~0.2.15"
   }
