@@ -66,14 +66,14 @@
     }
 
     function buildUrl(params){
-        var url = attrs.url;
+        var url = "schema/" + attrs.url;
         angular.forEach(params, function(value, key) {
             url = url.replace(':' + key, value)
         });
 
 
-        // return url;
-        return prefix + '/data/pageSchema.json';
+        return url;
+        //return prefix + '/data/pageSchema.json';
     }
 
     function templateManager(props){
