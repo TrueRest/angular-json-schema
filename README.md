@@ -15,11 +15,11 @@ bower install angular-rest-schema
 ```
 2 Include `angular-rest.js` in your `index.html`
 3 Add `'angular-rest'` to your main module's list of dependencies
-```
+```javascript
 angular.module('myApp', ['ui.router', 'angular-rest']);
 ```
 4 Create the components (directives), the component tag NEED to have the same name of the `'type'` attribute from back-end. The component will recive a id (base64) in `'ngRestId'` atribute. The following example we create the component field.
-```
+```javascript
 (function() {
   'use strict';
 
@@ -56,14 +56,14 @@ angular.module('myApp', ['ui.router', 'angular-rest']);
 ```
 5 Include `'ngRestProvider'` on the config with `'$stateProvider'`.
 6 Use `'ngRestProvider.set()'` instead of [ui-router](https://github.com/angular-ui/ui-router) object. The only mandatory field is `'url'` but you can pass all the attributes from [ui-router](https://github.com/angular-ui/ui-router), they will keep work, the only exception is the `'template*'` (you dont need to pass this one).
-```
+```javascript
 $stateProvider.state('example', ngRestProvider.set({
   url: '/example/:id',
   parent: 'master'
 }))
 ```
 7 When the url is called will make a back-end's request of the page schema. The following schema will create a page with 3 fields and the `'lastName'` will be the first field.
-```
+```javascript
 {
 	"title": "Example Schema",
 	"type": "object",
@@ -85,7 +85,7 @@ $stateProvider.state('example', ngRestProvider.set({
 }
 ```
 8 On the component you can acess the schema attributes like `'description'` instantiating a Object using the `'ngRest'` factory. Like the following example.
-```
+```javascript
 function field(ngRest, fieldObj) {
   var vm = this;
   vm.field = ngRest.instance(fieldObj, vm.ngRestId);
