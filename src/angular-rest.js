@@ -17,7 +17,7 @@
             'instance' : instance
         };
     };
-    
+
     this.set = set;
 
     var attrs = {};
@@ -33,14 +33,21 @@
     }
 
     function extend (buildedClass, id) {
-        // TO-DO validators
+        if(validateId(id)) return {};
         return angular.extend(buildedClass, storedAttrs[id]);
     }
 
     function instance (object, id) {
-        // TO-DO validators
+        if(validateId(id)) return {};
         var instance = new object();
         return angular.extend(instance, storedAttrs[id]);
+    }
+
+    function validateId(id){
+        if(!id) console.error('The object id is required.');
+        if(!storedAttrs[id]) console.error('Object not fount.');
+
+        return !storedAttrs[id] && !id;
     }
 
     function getTemplate($http, $stateParams){
@@ -63,9 +70,9 @@
         angular.forEach(params, function(value, key) {
             url = url.replace(':' + key, value)
         });
-        // return url;
 
-        // TO-DO temporary fix schema
+
+        // return url;
         return prefix + '/data/pageSchema.json';
     }
 
@@ -78,15 +85,31 @@
             var id = btoa(Math.random());
             storedAttrs[id] = prop;
             template += '<' + prop.type + ' ng-rest-id="\''+ id +'\'"></'+ prop.type + '>';
-        
+
         });
 
         return template;
     }
 
     // TO-DO order data by propertyOrder and transform to array
-    function orderArr (arr) {
-        return arr;
+    function orderArr (object) {
+        var array = [];
+        angular.forEach(props, function(value, key) {
+            this.push(key);
+        }, array);
+
+        //Bubble sort
+        var aux;
+        for (var i = array.length - 1; i >= 1 ; i--) {
+            for (var y = 0; y < i; y++) {
+                if(array[y].propertyOrder > array[y + 1].propertyOrder){
+                    aux = array[y];
+                    array[y] = array[y + 1];
+                    array[y + 1] = aux;
+                }
+            };
+        };
+        return array;
     }
   }
 })();
