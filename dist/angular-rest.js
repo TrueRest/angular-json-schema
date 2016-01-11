@@ -66,7 +66,7 @@
     }
 
     function buildUrl(params){
-        var url = "schema/" + attrs.url;
+        var url = "/schema" + attrs.url;
         angular.forEach(params, function(value, key) {
             url = url.replace(':' + key, value)
         });

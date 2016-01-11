@@ -62,7 +62,7 @@ $stateProvider.state('example', ngRestProvider.set({
   parent: 'master'
 }))
 ```
-7 When the url is called will make a back-end's request of the page schema. The following schema will create a page with 3 fields and the `'lastName'` will be the first field.
+7 When the url is called will make a back-end's request of the page schema (the same URL with "/schema" on start, the example will be `'/schema/example/:id'`. The following schema will create a page with 3 fields and the `'lastName'` will be the first field.
 ```javascript
 {
 	"title": "Example Schema",
@@ -84,6 +84,8 @@ $stateProvider.state('example', ngRestProvider.set({
 	"required": ["firstName", "lastName"]
 }
 ```
+**TO-DO:** Make the url more flexible.
+
 8 On the component you can acess the schema attributes like `'description'` instantiating a Object using the `'ngRest'` factory. Like the following example.
 ```javascript
 function field(ngRest, fieldObj) {
