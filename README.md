@@ -62,7 +62,7 @@ $stateProvider.state('example', ngRestProvider.set({
   parent: 'master'
 }))
 ```
-7 When the url is called will make a back-end's request of the page schema (the same URL with "/schema" on start, the example will be `'/schema/example/:id'`. The following schema will create a page with 3 fields and the `'lastName'` will be the first field.
+7 When the url is called will make a back-end's request of the page schema (the same URL with "/schema" on start, the example will be `'/schema/example/:id'`. The following schema will create a page with 3 fields and the `'lastName'` will be the first field. If the `'properties'` is a object the lib will look for the propertyOrder, if its a array the order will be the array order
 ```javascript
 {
 	"title": "Example Schema",
