@@ -94,7 +94,7 @@
     // TO-DO order data by propertyOrder and transform to array
     function orderArr (object) {
         var array = [];
-        angular.forEach(props, function(value, key) {
+        angular.forEach(object, function(value, key) {
             this.push(key);
         }, array);
 
