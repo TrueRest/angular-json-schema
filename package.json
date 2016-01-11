@@ -2,14 +2,8 @@
   "name": "angular",
   "version": "0.0.0",
   "dependencies": {},
-  "devDependencies" : {
-    "mocha" : "*",
-    "chai" : "*",
-    "sinon" : "*",
-    "grunt" : "*",
-    "grunt-contrib-coffee": "*",
-    "grunt-contrib-uglify": "*",
+  "devDependencies": {
     "matchdep": "*",
-    "grunt-mocha-test": "*"
+    "grunt-contrib-copy": "~0.8.2"
   }
 }
