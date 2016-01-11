@@ -1,6 +1,6 @@
 {
   "name": "angular",
-  "description": "Created to be used with json schema and json ld.",
+  "description": "Created pages using json schema and AngularJS!",
   "main": "dist/angular-rest.js",
   "version": "0.0.0",
   "dependencies": {}
