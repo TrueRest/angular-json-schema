@@ -5,7 +5,7 @@
 
 Angular Rest is a framework created in [AngularJS](http://angularjs.org) based on Rest by [Roy T. Fielding](https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm) for eneble the templates creation using [Json Schema](json-schema.org) and [Json Linking Data](http://json-ld.org/) and works with [ui-router](https://github.com/angular-ui/ui-router).
 
-[[http://www.reactiongifs.com/wp-content/gallery/omg/RDJ_Woah.gif]]
+[[http://www.reactiongifs.com/wp-content/gallery/omg/RDJ_Woah.gif | alt=omg]]
 
 **Note:** *Angular Rest is under active development.
 
