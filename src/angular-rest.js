@@ -90,18 +90,20 @@
 
         return template;
     }
-
-    // TO-DO order data by propertyOrder and transform to array
+    
+    //Order by propertyOrder
     function orderArr (object) {
         var array = [];
-        angular.forEach(props, function(value, key) {
-            this.push(key);
+        angular.forEach(object, function(value, key) {
+            this.push(value);
         }, array);
 
         //Bubble sort
         var aux;
         for (var i = array.length - 1; i >= 1 ; i--) {
             for (var y = 0; y < i; y++) {
+                if(isNaN(array[y].propertyOrder)) array[y].propertyOrder = Infinity;
+                if(isNaN(array[y + 1].propertyOrder)) array[y + 1].propertyOrder = Infinity;
                 if(array[y].propertyOrder > array[y + 1].propertyOrder){
                     aux = array[y];
                     array[y] = array[y + 1];
