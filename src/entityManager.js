@@ -26,9 +26,8 @@
 
         function pageEntityManager(data){
             //Create the page Object
-            var pageObj = cachedObjects[data.id] = new pageObject(data);
-            setupPageObject(pageObj);
-
+            cachedObjects[data.id] = new pageObject(data);
+            
             //Create and redering the templates
             var template = '';
             var props = data.properties;
@@ -43,10 +42,6 @@
             });
 
             return template;
-        }
-
-        function setupPageObject(PageObj){
-            console.log('setupPageObject', PageObj);
         }
 
         return {
