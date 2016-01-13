@@ -7,14 +7,18 @@
 
     function pageObjectFactory() {
         return function(attrs){
-            angular.extend(this, attrs);
+            var vm = this;
+            angular.extend(vm, attrs);
             
-            self.setup = function(links){
-                for (var i = 0; i < links.length; i++) {
+            self.setup = function(){
+                for (var i = 0; i < vm.links.length; i++) {
                     var link = create(links[i]);
                 }
             }
 
+            self.setup();
+            
+            // Create the abstract methods for the links actions
             function create(link){
                 if(!link.rel){
                   return;  
