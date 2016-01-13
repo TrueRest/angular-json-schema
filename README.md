@@ -94,3 +94,7 @@ function field(ngRest, fieldObj) {
 }
 ```
 **Note:** The instance method will instance the fieldObj, put all the attributes and the object will be returned instanced. If the object is already instanced, you can use extend(instancedObject, ngRestId) method.
+
+#Creating a component
+
+**Under construction**

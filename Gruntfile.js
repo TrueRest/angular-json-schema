@@ -17,11 +17,11 @@ module.exports = function(grunt) {
   };
   return grunt.initConfig({
     yeoman: yeomanConfig,
-    copy: {
-      main: {
-        src: '<%= yeoman.src %>/angular-rest.js',
+    concat: {
+      dist: {
+        src: ['<%= yeoman.src %>/*.js', '<%= yeoman.src %>/**/*.js'],
         dest: '<%= yeoman.dist %>/angular-rest.js',
       },
-    }
-  }, grunt.registerTask('default', ['copy']));
+    },
+  }, grunt.registerTask('default', ['concat']));
 };
