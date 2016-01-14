@@ -1,6 +1,6 @@
 #Angular Rest
 
-#### Created pages using json schema and AngularJS!
+#### Create pages and components using JSON Schema and AngularJS!
 ---
 
 Angular Rest is a framework created in [AngularJS](http://angularjs.org) based on Rest by [Roy T. Fielding](https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm) for eneble the templates creation using [Json Schema](http://json-schema.org) and [Json Linking Data](http://json-ld.org/) and works with [ui-router](https://github.com/angular-ui/ui-router).
