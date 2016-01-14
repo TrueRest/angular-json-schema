@@ -67,13 +67,13 @@
 
   angular
     .module('angular-rest')
-    .factory('entityManager', ['$http', 'util', 'pageObject', entityManagerFactory]);
+    .factory('entityManager', ['$http', 'util', 'entityObject', entityManagerFactory]);
 
-    function entityManagerFactory($http, util, pageObject) {
+    function entityManagerFactory($http, util, entityObject) {
         var attrs = {};
         // TO-DO store the objects to make the lib faster
-        var cachedObjects = {};
         var storedAttrs = {};
+        var objectRepres = 'properties';
 
         function getInvalidMessage(attr, response) {
             return 'Please check the json response of (<b>'+ response.config.method +'</b>) <b>' + response.config.url + '</b> has no <b>' + attr + '</b> attribute. <a href="http://json-schema.org/" target="_blank">More info</a>';
@@ -88,21 +88,24 @@
             return '/data/pageSchema.json';
         }
 
-        function pageEntityManager(data){
+        function entitysCreation(data){
             //Create the page Object
-            var po = cachedObjects[data.id] = new pageObject(data);
-            
+            var po = storedAttrs[data.id] = data = new entityObject(data);
+
             //Create and redering the templates
             var template = '';
             var props = data.properties;
-            if(!props.length) props = util.bubbleSort(props, 'propertyOrder');
-
-            angular.forEach(props, function(value, key) {
-                var prop = props[key];
+            if(props && !props.length) props = util.bubbleSort(props, 'propertyOrder');
+            
+            
+            angular.forEach(props, function(value, key){
                 var id = util.random();
-                storedAttrs[id] = prop;
-                storedAttrs[id]['parent'] = po;
-                template += '<' + prop.type + ' ng-rest-id="\''+ id +'\'"></'+ prop.type + '>';
+                template += '<' + value.type + ' ng-rest-id="\''+ id +'\'">';
+                    value['parent'] = po;
+                    if(!value['id']) value['id'] = id;
+                    template += entitysCreation(value);
+                template += '</'+ value.type + '>';
+                
             });
 
             return template;
@@ -113,14 +116,17 @@
                 attrs = attrsNew;
                 return $http.get(buildUrl($stateParams), {'headers': {'Accept': 'application/json'}}).then (function (response) {
                     if(!response.data.properties) return getInvalidMessage('properties', response);
-                    return pageEntityManager(response.data);
+                    return entitysCreation(response.data);
                 }, function(){
                   console.error('error');
                 });
             },
             'getClass' : function(id){
+                console.log(id);
                 return storedAttrs[id];
-            }
+            },
+            'entitysCreation' : entitysCreation,
+            'storedAttrs' : storedAttrs
         }
     }
 })();
@@ -129,14 +135,19 @@
 
   angular
     .module('angular-rest')
-    .factory('pageObject', ['util', pageObjectFactory]);
+    .factory('entityObject', ['util', entityObjectFactory]);
 
-    function pageObjectFactory(util) {
+    function entityObjectFactory(util) {
         return function(attrs){
             var vm = this;
             angular.extend(vm, attrs);
-            
-            for (var i = 0; i < vm.links.length; i++) create(vm.links[i]);
+
+            if(vm.links)
+                for (var i = 0; i < vm.links.length; i++){
+                    // entityObject.entitysCreation(link);
+                    create(vm.links[i]);
+                }
+
             
             // Create the abstract methods for the links actions
             function create(link){
@@ -175,9 +186,9 @@
                 var params = util.parseURL(link.href);
                 for (var i = 0; i < params.length; i++) {
                     var param = params[i];
-                    console.log(requestURL.replace(param[0], vm[param[1]]));
-
+                    requestURL = requestURL.replace(param[0], vm[param[1]]);
                 }
+                console.log('final url', requestURL);
             }
         }
     }
@@ -218,6 +229,8 @@
             'parseURL' : function(url){
                 var matchs = [];
                 var re = /{([\s\S]*?)}/gm;
+                var match;
+                
                 while (match = re.exec(url)) {
                   matchs.push(match);
                 }

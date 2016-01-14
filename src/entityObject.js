@@ -3,14 +3,19 @@
 
   angular
     .module('angular-rest')
-    .factory('pageObject', ['util', pageObjectFactory]);
+    .factory('entityObject', ['util', entityObjectFactory]);
 
-    function pageObjectFactory(util) {
+    function entityObjectFactory(util) {
         return function(attrs){
             var vm = this;
             angular.extend(vm, attrs);
-            
-            for (var i = 0; i < vm.links.length; i++) create(vm.links[i]);
+
+            if(vm.links)
+                for (var i = 0; i < vm.links.length; i++){
+                    // entityObject.entitysCreation(link);
+                    create(vm.links[i]);
+                }
+
             
             // Create the abstract methods for the links actions
             function create(link){
