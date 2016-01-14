@@ -26,7 +26,7 @@
 
         function pageEntityManager(data){
             //Create the page Object
-            cachedObjects[data.id] = new pageObject(data);
+            var po = cachedObjects[data.id] = new pageObject(data);
             
             //Create and redering the templates
             var template = '';
@@ -37,7 +37,7 @@
                 var prop = props[key];
                 var id = util.random();
                 storedAttrs[id] = prop;
-                storedAttrs[id]['parent'] = pageObject;
+                storedAttrs[id]['parent'] = po;
                 template += '<' + prop.type + ' ng-rest-id="\''+ id +'\'"></'+ prop.type + '>';
             });
 
@@ -53,6 +53,9 @@
                 }, function(){
                   console.error('error');
                 });
+            },
+            'getClass' : function(id){
+                return storedAttrs[id];
             }
         }
     }

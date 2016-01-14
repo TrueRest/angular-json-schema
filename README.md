@@ -97,4 +97,76 @@ function field(ngRest, fieldObj) {
 
 #Creating a component
 
+All the components controllers need to use `'ngRest'` factory to instance a class or extend using the methods `'ngRest.instance(Obj, ngRestId)'` | `'ngRest.extend(new Obj(), ngRestId)'`. Now the object has all the json attributes and the reference of the `Page Object` on `'parent'` attribute.
+
+```javascript
+function balance($scope, balanceObj, ngRest) {
+  var vm = this;
+  vm.balance = ngRest.instance(balanceObj, vm.ngRestId);
+} 
+```
+
+Once you have your component class, you can make the requisition (create, search), on you json you need to have the JSON Hyper-Schema. Like the example:
+
+```json
+{
+    "id": "http://some.site.somewhere/entry-schema#",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "description": "schema for an fstab entry",
+    "type": "object",
+    "required": [ "storage" ],
+    "properties": {...},
+    "links": [
+        {
+            "rel": "comments",
+            "href": "/{name}/comments"
+        },
+        {
+            "rel": "search",
+            "href": "/{name}/comments",
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "searchTerm": {
+                        "type": "string"
+                    },
+                    "itemsPerPage": {
+                        "type": "integer",
+                        "minimum": 10,
+                        "multipleOf": 10,
+                        "default": 20
+                    }
+                },
+                "required": ["name"]
+            }
+        },
+        {
+            "title": "Post a comment",
+            "rel": "create",
+            "href": "/{name}/comments",
+            "method": "POST",
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "required": ["message"]
+            }
+        }
+    ]
+}
+```
+#This feature is under contruction, and can be changed.
+
+All the methods is on the `parent` attribute. For you make a search request, just need to use `'Component.parent.search()'`. Like the following example.
+
+```javascript
+var pageObject = Component.parent;
+console.log(pageObject);
+pageObject.name = "Fabio";
+pageObject.search(callBack, beforeAction);
+```
+
 **Under construction**

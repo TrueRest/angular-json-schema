@@ -30,6 +30,17 @@
             },
             'random' : function(){
                 return btoa(Math.random());
+            },
+            'parseURL' : function(url){
+                var matchs = [];
+                var re = /{([\s\S]*?)}/gm;
+                var match;
+                
+                while (match = re.exec(url)) {
+                  matchs.push(match);
+                }
+
+                return matchs;
             }
         }
     }

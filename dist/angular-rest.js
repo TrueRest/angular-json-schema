@@ -11,7 +11,9 @@
     .provider('ngRest', [ngRestProvider]);
 
     function ngRestProvider() {
-        this.$get = function(){
+        var em;
+        this.$get = function(entityManager){
+            em = entityManager;
             return {
                 'extend' : extend,
                 'instance' : instance
@@ -29,8 +31,7 @@
 
         function extend (buildedClass, id) {
             if(validateId(id)) return {};
-            
-            return angular.extend(buildedClass, storedAttrs[id].prop);
+            return angular.extend(buildedClass, em.getClass(id));
         }
 
         function set(newAttrs) {
@@ -40,10 +41,7 @@
         }
 
         function validateId(id){
-            if(!id) console.error('The object id is required.');
-            if(!storedAttrs[id].prop) console.error('Object not fount.');
-
-            return !storedAttrs[id].prop && !id;
+            return !id;
         }
 
         function getTemplate(entityManager, $stateParams){
@@ -92,9 +90,8 @@
 
         function pageEntityManager(data){
             //Create the page Object
-            var pageObj = cachedObjects[data.id] = new pageObject(data);
-            setupPageObject(pageObj);
-
+            var po = cachedObjects[data.id] = new pageObject(data);
+            
             //Create and redering the templates
             var template = '';
             var props = data.properties;
@@ -104,15 +101,11 @@
                 var prop = props[key];
                 var id = util.random();
                 storedAttrs[id] = prop;
-                storedAttrs[id]['parent'] = pageObject;
+                storedAttrs[id]['parent'] = po;
                 template += '<' + prop.type + ' ng-rest-id="\''+ id +'\'"></'+ prop.type + '>';
             });
 
             return template;
-        }
-
-        function setupPageObject(PageObj){
-            console.log('setupPageObject', PageObj);
         }
 
         return {
@@ -124,6 +117,9 @@
                 }, function(){
                   console.error('error');
                 });
+            },
+            'getClass' : function(id){
+                return storedAttrs[id];
             }
         }
     }
@@ -133,38 +129,39 @@
 
   angular
     .module('angular-rest')
-    .factory('pageObject', [pageObjectFactory]);
+    .factory('pageObject', ['util', pageObjectFactory]);
 
-    function pageObjectFactory() {
+    function pageObjectFactory(util) {
         return function(attrs){
-            angular.extend(this, attrs);
+            var vm = this;
+            angular.extend(vm, attrs);
             
-            self.setup = function(links){
-                for (var i = 0; i < links.length; i++) {
-                    var link = create(links[i]);
-                }
-            }
-
+            for (var i = 0; i < vm.links.length; i++) create(vm.links[i]);
+            
+            // Create the abstract methods for the links actions
             function create(link){
                 if(!link.rel){
                   return;  
                 }
-                self[link.rel] = function(callback, beforeAction){
+                vm[link.rel] = function(callback, beforeAction){
                     if(beforeAction) beforeAction();
+
+                    var requiredError = false;
 
                     if(link.schema && link.schema.required){
                         //TO-DO check all the field if its Ok
                         for (var i = 0; i < link.schema.required.length; i++) {
                             var label = link.schema.required[i];
-                            if(!self[label]){
-                                console.error("The " + label + " attribute is required.");
+                            if(!vm[label]){
+                                console.error('The ' + label + ' attribute is required.');
+                                requiredError = true;
                                 // return;
                             }
-                        };
-                        console.log(link.schema.required);
+                        }
+                        console.log('Required infos', link.schema.required);
                     }
 
-                    makeRequest(link);
+                    if(!requiredError) makeRequest(link);
 
                     if(callback) callback();
                 }
@@ -172,8 +169,15 @@
 
             function makeRequest(link){
                 if(!link.href) return;
+                var requestURL = link.href;
 
-                console.log("URL2 -> ", link);
+                if(!link.method) link.method = 'GET';
+                var params = util.parseURL(link.href);
+                for (var i = 0; i < params.length; i++) {
+                    var param = params[i];
+                    console.log(requestURL.replace(param[0], vm[param[1]]));
+
+                }
             }
         }
     }
@@ -210,6 +214,15 @@
             },
             'random' : function(){
                 return btoa(Math.random());
+            },
+            'parseURL' : function(url){
+                var matchs = [];
+                var re = /{([\s\S]*?)}/gm;
+                while (match = re.exec(url)) {
+                  matchs.push(match);
+                }
+
+                return matchs;
             }
         }
     }

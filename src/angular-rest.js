@@ -11,7 +11,9 @@
     .provider('ngRest', [ngRestProvider]);
 
     function ngRestProvider() {
-        this.$get = function(){
+        var em;
+        this.$get = function(entityManager){
+            em = entityManager;
             return {
                 'extend' : extend,
                 'instance' : instance
@@ -29,8 +31,7 @@
 
         function extend (buildedClass, id) {
             if(validateId(id)) return {};
-            
-            return angular.extend(buildedClass, storedAttrs[id].prop);
+            return angular.extend(buildedClass, em.getClass(id));
         }
 
         function set(newAttrs) {
@@ -40,10 +41,7 @@
         }
 
         function validateId(id){
-            if(!id) console.error('The object id is required.');
-            if(!storedAttrs[id].prop) console.error('Object not fount.');
-
-            return !storedAttrs[id].prop && !id;
+            return !id;
         }
 
         function getTemplate(entityManager, $stateParams){

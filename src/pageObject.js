@@ -3,42 +3,39 @@
 
   angular
     .module('angular-rest')
-    .factory('pageObject', [pageObjectFactory]);
+    .factory('pageObject', ['util', pageObjectFactory]);
 
-    function pageObjectFactory() {
+    function pageObjectFactory(util) {
         return function(attrs){
             var vm = this;
             angular.extend(vm, attrs);
             
-            self.setup = function(){
-                for (var i = 0; i < vm.links.length; i++) {
-                    var link = create(links[i]);
-                }
-            }
-
-            self.setup();
+            for (var i = 0; i < vm.links.length; i++) create(vm.links[i]);
             
             // Create the abstract methods for the links actions
             function create(link){
                 if(!link.rel){
                   return;  
                 }
-                self[link.rel] = function(callback, beforeAction){
+                vm[link.rel] = function(callback, beforeAction){
                     if(beforeAction) beforeAction();
+
+                    var requiredError = false;
 
                     if(link.schema && link.schema.required){
                         //TO-DO check all the field if its Ok
                         for (var i = 0; i < link.schema.required.length; i++) {
                             var label = link.schema.required[i];
-                            if(!self[label]){
-                                console.error("The " + label + " attribute is required.");
+                            if(!vm[label]){
+                                console.error('The ' + label + ' attribute is required.');
+                                requiredError = true;
                                 // return;
                             }
-                        };
-                        console.log(link.schema.required);
+                        }
+                        console.log('Required infos', link.schema.required);
                     }
 
-                    makeRequest(link);
+                    if(!requiredError) makeRequest(link);
 
                     if(callback) callback();
                 }
@@ -46,8 +43,15 @@
 
             function makeRequest(link){
                 if(!link.href) return;
+                var requestURL = link.href;
 
-                console.log("URL2 -> ", link);
+                if(!link.method) link.method = 'GET';
+                var params = util.parseURL(link.href);
+                for (var i = 0; i < params.length; i++) {
+                    var param = params[i];
+                    requestURL = requestURL.replace(param[0], vm[param[1]]);
+                }
+                console.log('final url', requestURL);
             }
         }
     }
