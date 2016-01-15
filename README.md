@@ -15,9 +15,9 @@ bower install angular-json-schema
 ```
 **(2)** Include `angular-json-schema.js` in your `index.html`
 
-**(3)** Add `'ngSchema'` to your main module's list of dependencies
+**(3)** Add `'angular-json-schema'` to your main module's list of dependencies
 ```javascript
-angular.module('myApp', ['ui.router', 'ngSchema']);
+angular.module('myApp', ['ui.router', 'angular-json-schema']);
 ```
 **(4)** Create the components (directives), the component tag NEED to have the same name of the `'type'` attribute from back-end. The component will recive a id (base64) in `'ngSchemaId'` atribute. The following example we create the component field.
 ```javascript
