@@ -14,6 +14,7 @@ Angular JSON Schema is a framework created in [AngularJS](http://angularjs.org) 
 bower install angular-json-schema
 ```
 **(2)** Include `angular-json-schema.js` in your `index.html`
+
 **(3)** Add `'ngSchema'` to your main module's list of dependencies
 ```javascript
 angular.module('myApp', ['ui.router', 'ngSchema']);
