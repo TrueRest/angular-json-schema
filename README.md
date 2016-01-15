@@ -11,7 +11,7 @@ Angular Rest is a framework created in [AngularJS](http://angularjs.org) based o
 
 1 Install with bower:
 ```
-bower install angular-rest-schema
+bower install angular-json-schema
 ```
 2 Include `angular-rest.js` in your `index.html`
 3 Add `'angular-rest'` to your main module's list of dependencies
