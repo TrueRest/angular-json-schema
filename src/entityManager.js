@@ -36,7 +36,7 @@
             
             angular.forEach(props, function(value, key){
                 var id = util.random();
-                template += '<' + value.type + ' ng-rest-id="\''+ id +'\'">';
+                template += '<' + value.type + ' ng-schema-id="\''+ id +'\'">';
                     value['parent'] = po;
                     if(!value['id']) value['id'] = id;
                     template += entitysCreation(value);
