@@ -3,9 +3,9 @@
 
   angular
     .module('angular-rest')
-    .factory('util', [utilFactory]);
+    .factory('ngUtil', [ngUtilFactory]);
 
-    function utilFactory() {
+    function ngUtilFactory() {
         return {
             'bubbleSort' : function(object, property){
                 var array = [];

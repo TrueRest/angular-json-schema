@@ -3,16 +3,16 @@
 
   angular
     .module('angular-rest')
-    .factory('entityObject', ['util', entityObjectFactory]);
+    .factory('ngEntityObject', ['ngUtil', ngEntityObjectFactory]);
 
-    function entityObjectFactory(util) {
+    function ngEntityObjectFactory(ngUtil) {
         return function(attrs){
             var vm = this;
             angular.extend(vm, attrs);
 
             if(vm.links)
                 for (var i = 0; i < vm.links.length; i++){
-                    // entityObject.entitysCreation(link);
+                    // ngEntityObject.entitysCreation(link);
                     create(vm.links[i]);
                 }
 
@@ -51,7 +51,7 @@
                 var requestURL = link.href;
 
                 if(!link.method) link.method = 'GET';
-                var params = util.parseURL(link.href);
+                var params = ngUtil.parseURL(link.href);
                 for (var i = 0; i < params.length; i++) {
                     var param = params[i];
                     requestURL = requestURL.replace(param[0], vm[param[1]]);

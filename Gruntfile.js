@@ -20,7 +20,7 @@ module.exports = function(grunt) {
     concat: {
       dist: {
         src: ['<%= yeoman.src %>/*.js', '<%= yeoman.src %>/**/*.js'],
-        dest: '<%= yeoman.dist %>/angular-rest.js',
+        dest: '<%= yeoman.dist %>/angular-json-schema.js',
       },
     },
   }, grunt.registerTask('default', ['concat']));

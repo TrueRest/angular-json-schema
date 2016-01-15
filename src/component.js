@@ -3,9 +3,9 @@
 
   angular
     .module('angular-rest')
-    .factory('Component', [ComponentFactory]);
+    .factory('ngComponent', [ngComponentFactory]);
 
-    function ComponentFactory() {
+    function ngComponentFactory() {
         return function(){
             var self = this;
         }

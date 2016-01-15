@@ -7,10 +7,10 @@
   'use strict';
 
   angular
-    .module('angular-rest', ['ui.router'])
-    .provider('ngRest', [ngRestProvider]);
+    .module('angular-json-schema', ['ui.router'])
+    .provider('ngSchema', [ngSchemaProvider]);
 
-    function ngRestProvider() {
+    function ngSchemaProvider() {
         var em;
         this.$get = function(entityManager){
             em = entityManager;

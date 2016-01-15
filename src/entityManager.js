@@ -3,9 +3,9 @@
 
   angular
     .module('angular-rest')
-    .factory('entityManager', ['$http', 'util', 'entityObject', entityManagerFactory]);
+    .factory('ngEntityManager', ['$http', 'util', 'ngEntityObject', ngEntityManagerFactory]);
 
-    function entityManagerFactory($http, util, entityObject) {
+    function ngEntityManagerFactory($http, util, ngEntityObject) {
         var attrs = {};
         // TO-DO store the objects to make the lib faster
         var storedAttrs = {};
@@ -26,7 +26,7 @@
 
         function entitysCreation(data){
             //Create the page Object
-            var po = storedAttrs[data.id] = data = new entityObject(data);
+            var po = storedAttrs[data.id] = data = new ngEntityObject(data);
 
             //Create and redering the templates
             var template = '';
