@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('angular-rest')
+    .module('angular-json-schema')
     .factory('ngEntityObject', ['ngUtil', ngEntityObjectFactory]);
 
     function ngEntityObjectFactory(ngUtil) {

@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('angular-rest')
+    .module('angular-json-schema')
     .factory('ngUtil', [ngUtilFactory]);
 
     function ngUtilFactory() {

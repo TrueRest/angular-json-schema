@@ -53,7 +53,7 @@
   'use strict';
 
   angular
-    .module('angular-rest')
+    .module('angular-json-schema')
     .factory('ngComponent', [ngComponentFactory]);
 
     function ngComponentFactory() {
@@ -66,7 +66,7 @@
   'use strict';
 
   angular
-    .module('angular-rest')
+    .module('angular-json-schema')
     .factory('ngEntityManager', ['$http', 'util', 'ngEntityObject', ngEntityManagerFactory]);
 
     function ngEntityManagerFactory($http, util, ngEntityObject) {
@@ -134,7 +134,7 @@
   'use strict';
 
   angular
-    .module('angular-rest')
+    .module('angular-json-schema')
     .factory('ngEntityObject', ['ngUtil', ngEntityObjectFactory]);
 
     function ngEntityObjectFactory(ngUtil) {
@@ -199,7 +199,7 @@
   'use strict';
 
   angular
-    .module('angular-rest')
+    .module('angular-json-schema')
     .factory('ngUtil', [ngUtilFactory]);
 
     function ngUtilFactory() {
