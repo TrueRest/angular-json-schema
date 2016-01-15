@@ -1,24 +1,24 @@
-#Angular Rest
+#Angular JSON Schema
 
 #### Create pages and components using JSON Schema and AngularJS!
 ---
 
-Angular Rest is a framework created in [AngularJS](http://angularjs.org) based on Rest by [Roy T. Fielding](https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm) for eneble the templates creation using [Json Schema](http://json-schema.org) and [Json Linking Data](http://json-ld.org/) and works with [ui-router](https://github.com/angular-ui/ui-router).
+Angular JSON Schema is a framework created in [AngularJS](http://angularjs.org) based on Rest by [Roy T. Fielding](https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm) for eneble the templates creation using [Json Schema](http://json-schema.org) and [Json Linking Data](http://json-ld.org/) and works with [ui-router](https://github.com/angular-ui/ui-router).
 
 **Note:** *Angular Rest is under active development.
 
 ## Get Started
 
-1 Install with bower:
+**(1)** Install with bower:
 ```
 bower install angular-json-schema
 ```
-2 Include `angular-rest.js` in your `index.html`
-3 Add `'angular-rest'` to your main module's list of dependencies
+**(2)** Include `angular-json-schema.js` in your `index.html`
+**(3)** Add `'ngSchema'` to your main module's list of dependencies
 ```javascript
-angular.module('myApp', ['ui.router', 'angular-rest']);
+angular.module('myApp', ['ui.router', 'ngSchema']);
 ```
-4 Create the components (directives), the component tag NEED to have the same name of the `'type'` attribute from back-end. The component will recive a id (base64) in `'ngRestId'` atribute. The following example we create the component field.
+**(4)** Create the components (directives), the component tag NEED to have the same name of the `'type'` attribute from back-end. The component will recive a id (base64) in `'ngSchemaId'` atribute. The following example we create the component field.
 ```javascript
 (function() {
   'use strict';
@@ -34,7 +34,7 @@ angular.module('myApp', ['ui.router', 'angular-rest']);
       restrict: 'E',
       templateUrl: 'urlToTemplate',
       scope: {
-          ngRestId: '='
+          ngSchemaId: '='
       },
       controller: field,
       controllerAs: 'field',
@@ -54,15 +54,15 @@ angular.module('myApp', ['ui.router', 'angular-rest']);
   }
 })();
 ```
-5 Include `'ngRestProvider'` on the config with `'$stateProvider'`.
-6 Use `'ngRestProvider.set()'` instead of [ui-router](https://github.com/angular-ui/ui-router) object. The only mandatory field is `'url'` but you can pass all the attributes from [ui-router](https://github.com/angular-ui/ui-router), they will keep work, the only exception is the `'template*'` (you dont need to pass this one).
+**(5)** Include `'ngSchemaProvider'` on the config with `'$stateProvider'`.
+**(6)** Use `'ngSchemaProvider.set()'` instead of [ui-router](https://github.com/angular-ui/ui-router) object. The only mandatory field is `'url'` but you can pass all the attributes from [ui-router](https://github.com/angular-ui/ui-router), they will keep work, the only exception is the `'template*'` (you dont need to pass this one).
 ```javascript
-$stateProvider.state('example', ngRestProvider.set({
+$stateProvider.state('example', ngSchemaProvider.set({
   url: '/example/:id',
   parent: 'master'
 }))
 ```
-7 When the url is called will make a back-end's request of the page schema (the same URL with "/schema" on start, the example will be `'/schema/example/:id'`. The following schema will create a page with 3 fields and the `'lastName'` will be the first field. If the `'properties'` is a object the lib will look for the propertyOrder, if its a array the order will be the array order
+**(7)** When the url is called will make a back-end's request of the page schema (the same URL with "/schema" on start, the example will be `'/schema/example/:id'`. The following schema will create a page with 3 fields and the `'lastName'` will be the first field. If the `'properties'` is a object the lib will look for the propertyOrder, if its a array the order will be the array order
 ```javascript
 {
 	"title": "Example Schema",
@@ -86,23 +86,23 @@ $stateProvider.state('example', ngRestProvider.set({
 ```
 **TO-DO:** Make the url more flexible.
 
-8 On the component you can acess the schema attributes like `'description'` instantiating a Object using the `'ngRest'` factory. Like the following example.
+**(8)** On the component you can acess the schema attributes like `'description'` instantiating a Object using the `'ngSchema'` factory. Like the following example.
 ```javascript
-function field(ngRest, fieldObj) {
+function field(ngSchema, fieldObj) {
   var vm = this;
-  vm.field = ngRest.instance(fieldObj, vm.ngRestId);
+  vm.field = ngSchema.instance(fieldObj, vm.ngSchemaId);
 }
 ```
 **Note:** The instance method will instance the fieldObj, put all the attributes and the object will be returned instanced. If the object is already instanced, you can use extend(instancedObject, ngRestId) method.
 
 #Creating a component
 
-All the components controllers need to use `'ngRest'` factory to instance a class or extend using the methods `'ngRest.instance(Obj, ngRestId)'` | `'ngRest.extend(new Obj(), ngRestId)'`. Now the object has all the json attributes and the reference of the `Page Object` on `'parent'` attribute.
+All the components controllers need to use `'ngSchema'` factory to instance a class or extend using the methods `'ngSchema.instance(Obj, ngSchemaId)'` | `'ngSchema.extend(new Obj(), ngSchemaId)'`. Now the object has all the json attributes and the reference of the `Page Object` on `'parent'` attribute.
 
 ```javascript
-function balance($scope, balanceObj, ngRest) {
+function balance($scope, balanceObj, ngSchema) {
   var vm = this;
-  vm.balance = ngRest.instance(balanceObj, vm.ngRestId);
+  vm.balance = ngSchema.instance(balanceObj, vm.ngRestId);
 } 
 ```
 
@@ -159,14 +159,3 @@ Once you have your component class, you can make the requisition (create, search
 }
 ```
 #This feature is under contruction, and can be changed.
-
-All the methods is on the `parent` attribute. For you make a search request, just need to use `'Component.parent.search()'`. Like the following example.
-
-```javascript
-var pageObject = Component.parent;
-console.log(pageObject);
-pageObject.name = "Fabio";
-pageObject.search(callBack, beforeAction);
-```
-
-**Under construction**
