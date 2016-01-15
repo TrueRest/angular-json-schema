@@ -1,7 +1,7 @@
 /*
  * Angular Rest Route
  * Work with Angular UI Router (https://github.com/angular-ui/ui-router)
- * Created by: Fábio Picheli (github.com/picheli20).
+ * Created by: Fábio Picheli (github.com/picheli20)
  */
 (function() {
   'use strict';
@@ -154,8 +154,9 @@
                 if(!link.rel){
                   return;  
                 }
-                vm[link.rel] = function(callback, beforeAction){
-                    if(beforeAction) beforeAction();
+                vm[link.rel] = function(object){
+                    // callback, beforeAction
+                    if(object.beforeAction) object.beforeAction();
 
                     var requiredError = false;
 
@@ -165,6 +166,7 @@
                             var label = link.schema.required[i];
                             if(!vm[label]){
                                 console.error('The ' + label + ' attribute is required.');
+                                if(object.validationError) object.validationError();
                                 requiredError = true;
                                 // return;
                             }
@@ -174,7 +176,7 @@
 
                     if(!requiredError) makeRequest(link);
 
-                    if(callback) callback();
+                    if(object.callback) object.callback();
                 }
             }
 
