@@ -1,5 +1,5 @@
 {
-  "name": "angular",
+  "name": "angular-json-schema",
   "description": "Created pages using json schema and AngularJS!",
   "main": "dist/angular-json-schema.js",
   "version": "0.0.2",

@@ -34,7 +34,7 @@
                             var label = link.schema.required[i];
                             if(!vm[label]){
                                 console.error('The ' + label + ' attribute is required.');
-                                if(object.validationError) object.validationError();
+                                if(object.validationError) object.validationError(label);
                                 requiredError = true;
                                 // return;
                             }
