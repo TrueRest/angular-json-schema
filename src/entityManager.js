@@ -3,9 +3,9 @@
 
   angular
     .module('angular-json-schema')
-    .factory('ngEntityManager', ['$http', 'util', 'ngEntityObject', ngEntityManagerFactory]);
+    .factory('ngEntityManager', ['$http', 'ngUtil', 'ngEntityObject', ngEntityManagerFactory]);
 
-    function ngEntityManagerFactory($http, util, ngEntityObject) {
+    function ngEntityManagerFactory($http, ngUtil, ngEntityObject) {
         var attrs = {};
         // TO-DO store the objects to make the lib faster
         var storedAttrs = {};
@@ -31,11 +31,11 @@
             //Create and redering the templates
             var template = '';
             var props = data.properties;
-            if(props && !props.length) props = util.bubbleSort(props, 'propertyOrder');
+            if(props && !props.length) props = ngUtil.bubbleSort(props, 'propertyOrder');
             
             
             angular.forEach(props, function(value, key){
-                var id = util.random();
+                var id = ngUtil.random();
                 template += '<' + value.type + ' ng-schema-id="\''+ id +'\'">';
                     value['parent'] = po;
                     if(!value['id']) value['id'] = id;
