@@ -1,9 +1,14 @@
 (function() {
   'use strict';
+    /**
+    * Manage all the entitys for the template creation, etc...
+    *
+    * @class ngEntityManager
+    */
 
-  angular
-    .module('angular-json-schema')
-    .factory('ngEntityManager', ['$http', 'ngUtil', 'ngEntityObject', ngEntityManagerFactory]);
+    angular
+        .module('angular-json-schema')
+        .factory('ngEntityManager', ['$http', 'ngUtil', 'ngEntityObject', ngEntityManagerFactory]);
 
     function ngEntityManagerFactory($http, ngUtil, ngEntityObject) {
         var attrs = {};

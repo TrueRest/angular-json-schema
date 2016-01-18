@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src/entityManager.js - angular</title>
+    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+</head>
+<body class="yui3-skin-sam">
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <h1 class="brand" style="padding: 10px 16px 10px; height: 20px; line-height: 20px; margin-left: 0;">
+	    <img alt="angular" src="../assets/css/logo.png" style="max-height: 65%;" title="angular">
+            angular
+        </h1>
+	<div class="nav">
+            <li class="divider-vertical"></li>
+            <li>
+                <p class="navbar-text">
+                    API Docs for Version: <b>0.0.0</b>
+                </p>
+            </li>
+        </div>
+        <form class="navbar-form pull-right" style="line-height: 40px; height: 40px;">
+            <input style="margin-top: 0;" type="text" class="search-query" placeholder="Search for classes/modules..." data-obj='["classes/ngEntityManager", "classes/ngSchema"]'>
+        </form>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="span3">
+	    <div>
+	        <h3>APIs</h3>
+	        <div id="sidebar">
+	            <ul id="main-nav" class="nav nav-tabs" style="margin-bottom:0;">
+	                <li class="active"><a href="#classes" data-toggle="tab">Classes</a></li>
+	                <li><a href="#modules" data-toggle="tab">Modules</a></li>
+	            </ul>
+	    
+	            <div id="api-tabview-filter">
+	                <input type="search" placeholder="Type to filter APIs">
+	            </div>
+	    
+	            <div class="tab-content" style="border: 1px solid #DDD; border-top:0;">
+	                <div class="tab-pane active" id="classes">
+	                    <ul id="api-classes" class="nav nav-list">
+	                            <li><a href="../classes/ngEntityManager.html">ngEntityManager</a></li>
+	                            <li><a href="../classes/ngSchema.html">ngSchema</a></li>
+	                    </ul>
+	                </div>
+	    
+	                <div class="tab-pane" id="modules">
+	                    <ul id="api-modules" class="nav nav-list">
+	                    </ul>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+        </div>
+        <div class="span9">
+                <form id="options-form" class="form-inline pull-right">
+                    Show:
+                    <label for="api-show-inherited" class="checkbox">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected" class="checkbox">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private" class="checkbox">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated" class="checkbox">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </form>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<div class="page-header">
+    <h1>src/entityManager.js <small>File</small></h1>
+</div>
+
+<div class="file">
+    <pre class="prettyprint linenums">
+(function() {
+  &#x27;use strict&#x27;;
+    /**
+    * Manage all the entitys for the template creation, etc...
+    *
+    * @class ngEntityManager
+    */
+
+    angular
+        .module(&#x27;angular-json-schema&#x27;)
+        .factory(&#x27;ngEntityManager&#x27;, [&#x27;$http&#x27;, &#x27;ngUtil&#x27;, &#x27;ngEntityObject&#x27;, ngEntityManagerFactory]);
+
+    function ngEntityManagerFactory($http, ngUtil, ngEntityObject) {
+        var attrs = {};
+        // TO-DO store the objects to make the lib faster
+        var storedAttrs = {};
+        var objectRepres = &#x27;properties&#x27;;
+
+        function getInvalidMessage(attr, response) {
+            return &#x27;Please check the json response of (&lt;b&gt;&#x27;+ response.config.method +&#x27;&lt;/b&gt;) &lt;b&gt;&#x27; + response.config.url + &#x27;&lt;/b&gt; has no &lt;b&gt;&#x27; + attr + &#x27;&lt;/b&gt; attribute. &lt;a href=&quot;http://json-schema.org/&quot; target=&quot;_blank&quot;&gt;More info&lt;/a&gt;&#x27;;
+        }
+
+        function buildUrl(params){
+            var url = &quot;/schema&quot; + attrs.url;
+            angular.forEach(params, function(value, key) {
+                url = url.replace(&#x27;:&#x27; + key, value)
+            });
+            // return url;
+            return &#x27;/data/pageSchema.json&#x27;;
+        }
+
+        function entitysCreation(data){
+            //Create the page Object
+            var po = storedAttrs[data.id] = data = new ngEntityObject(data);
+
+            //Create and redering the templates
+            var template = &#x27;&#x27;;
+            var props = data.properties;
+            if(props &amp;&amp; !props.length) props = ngUtil.bubbleSort(props, &#x27;propertyOrder&#x27;);
+
+
+            angular.forEach(props, function(value, key){
+                var id = ngUtil.random();
+                template += &#x27;&lt;&#x27; + value.type + &#x27; ng-schema-id=&quot;\&#x27;&#x27;+ id +&#x27;\&#x27;&quot;&gt;&#x27;;
+                    value[&#x27;parent&#x27;] = po;
+                    if(!value[&#x27;id&#x27;]) value[&#x27;id&#x27;] = id;
+                    template += entitysCreation(value);
+                template += &#x27;&lt;/&#x27;+ value.type + &#x27;&gt;&#x27;;
+
+            });
+
+            return template;
+        }
+
+        return {
+            &#x27;getLayout&#x27; : function(attrsNew, $stateParams){
+                attrs = attrsNew;
+                return $http.get(buildUrl($stateParams), {&#x27;headers&#x27;: {&#x27;Accept&#x27;: &#x27;application/json&#x27;}}).then (function (response) {
+                    if(!response.data.properties) return getInvalidMessage(&#x27;properties&#x27;, response);
+                    return entitysCreation(response.data);
+                }, function(){
+                  console.error(&#x27;error&#x27;);
+                });
+            },
+            &#x27;getClass&#x27; : function(id){
+                return storedAttrs[id];
+            },
+            &#x27;entitysCreation&#x27; : entitysCreation,
+            &#x27;storedAttrs&#x27; : storedAttrs
+        }
+    }
+})();
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script src="../assets/js/yuidoc-bootstrap.js"></script>
+<script>prettyPrint();</script>
+</body>
+</html>

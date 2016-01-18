@@ -5,10 +5,15 @@
  */
 (function() {
   'use strict';
-
-  angular
-    .module('angular-json-schema', ['ui.router'])
-    .provider('ngSchema', [ngSchemaProvider]);
+    /**
+    * This is the description for my class.
+    *
+    * @class ngSchema
+    * @constructor
+    */
+    angular
+        .module('angular-json-schema', ['ui.router'])
+        .provider('ngSchema', [ngSchemaProvider]);
 
     function ngSchemaProvider() {
         var em;
@@ -21,8 +26,28 @@
         };
 
         this.set = set;
+        /**
+        * My property description.  Like other pieces of your comment blocks,
+        * this can span multiple lines.
+        *
+        * @property propertyName
+        * @type {Object}
+        * @default "foo"
+        */
         var attrs = {};
 
+        /**
+        * My method description.  Like other pieces of your comment blocks,
+        * this can span multiple lines.
+        *
+        * @method methodName
+        * @param {String} foo Argument 1
+        * @param {Object} config A config object
+        * @param {String} config.name The name on the config object
+        * @param {Function} config.callback A callback function on the config object
+        * @param {Boolean} [extra=false] Do extra, optional work
+        * @return {Boolean} Returns true on success
+        */
         function instance (object, id) {
             if(validateId(id)) return {};
             var instance = new object();
@@ -52,23 +77,48 @@
 
 (function() {
   'use strict';
+  /**
+  * This is the description for my class.
+  *
+  * @class ngComponent
+  * @constructor
+  */
 
   angular
     .module('angular-json-schema')
     .factory('ngComponent', [ngComponentFactory]);
 
+    /**
+    * My method description.  Like other pieces of your comment blocks,
+    * this can span multiple lines.
+    *
+    * @method methodName
+    * @param {String} foo Argument 1
+    * @param {Object} config A config object
+    * @param {String} config.name The name on the config object
+    * @param {Function} config.callback A callback function on the config object
+    * @param {Boolean} [extra=false] Do extra, optional work
+    * @return {Boolean} Returns true on success
+    */
     function ngComponentFactory() {
         return function(){
             var self = this;
         }
     }
 })();
+
 (function() {
   'use strict';
+    /**
+    * This is the description for my class.
+    *
+    * @class ngEntityManager
+    * @constructor
+    */
 
-  angular
-    .module('angular-json-schema')
-    .factory('ngEntityManager', ['$http', 'ngUtil', 'ngEntityObject', ngEntityManagerFactory]);
+    angular
+        .module('angular-json-schema')
+        .factory('ngEntityManager', ['$http', 'ngUtil', 'ngEntityObject', ngEntityManagerFactory]);
 
     function ngEntityManagerFactory($http, ngUtil, ngEntityObject) {
         var attrs = {};

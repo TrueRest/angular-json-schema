@@ -5,10 +5,14 @@
  */
 (function() {
   'use strict';
-
-  angular
-    .module('angular-json-schema', ['ui.router'])
-    .provider('ngSchema', [ngSchemaProvider]);
+    /**
+    * Main provider.
+    *
+    * @class ngSchema
+    */
+    angular
+        .module('angular-json-schema', ['ui.router'])
+        .provider('ngSchema', [ngSchemaProvider]);
 
     function ngSchemaProvider() {
         var em;
@@ -23,11 +27,27 @@
         this.set = set;
         var attrs = {};
 
+        /**
+        * Instanciate a object and put all the methods
+        *
+        * @method instance
+        * @param {Object} object A object to be instanced
+        * @param {id} id The ng-schema-id value of the component
+        * @return {Object} Return a instanced class with all the methods
+        */
         function instance (object, id) {
             if(validateId(id)) return {};
             var instance = new object();
             return extend(instance, id);
         }
+        /**
+        * Instanciate a object and put all the methods
+        *
+        * @method extend
+        * @param {Object} buildedClass A instanced object.
+        * @param {id} id The ng-schema-id value of the component
+        * @return {Object} Return a extended obejct
+        */
 
         function extend (buildedClass, id) {
             if(validateId(id)) return {};
