@@ -5,41 +5,20 @@
  */
 (function() {
   'use strict';
-    /**
-    * Main provider.
-    *
-    * @class ngSchema
-    */
-    angular
-        .module('angular-json-schema', ['ui.router'])
-        .provider('ngSchema', [ngSchemaProvider]);
 
     function ngSchemaProvider() {
         var em;
-        this.$get = function(ngEntityManager){
-            em = ngEntityManager;
-            return {
-                'extend' : extend,
-                'instance' : instance
-            };
-        };
-
-        this.set = set;
+        var vm = this;
         var attrs = {};
 
-        /**
-        * Instanciate a object and put all the methods
-        *
-        * @method instance
-        * @param {Object} object A object to be instanced
-        * @param {id} id The ng-schema-id value of the component
-        * @return {Object} Return a instanced class with all the methods
-        */
-        function instance (object, id) {
-            if(validateId(id)) return {};
-            var instance = new object();
-            return extend(instance, id);
+        function getTemplate(ngEntityManager, $stateParams){
+            return ngEntityManager.getLayout(attrs, $stateParams);
         }
+
+        function validateId(id){
+            return !id;
+        }
+
         /**
         * Instanciate a object and put all the methods
         *
@@ -50,8 +29,26 @@
         */
 
         function extend (buildedClass, id) {
-            if(validateId(id)) return {};
+            if(validateId(id)){
+                return {};
+            }
             return angular.extend(buildedClass, em.getClass(id));
+        }
+
+        /**
+        * Instanciate a object and put all the methods
+        *
+        * @method instance
+        * @param {Object} object A object to be instanced
+        * @param {id} id The ng-schema-id value of the component
+        * @return {Object} Return a instanced class with all the methods
+        */
+        function instance (Object, id) {
+            if(validateId(id)){
+              return {};
+            }
+            var instance = new Object({});
+            return extend(instance, id);
         }
 
         function set(newAttrs) {
@@ -60,12 +57,22 @@
             return attrs;
         }
 
-        function validateId(id){
-            return !id;
-        }
 
-        function getTemplate(ngEntityManager, $stateParams){
-            return ngEntityManager.getLayout(attrs, $stateParams);
-        }
+        vm.$get = function(ngEntityManager){
+            em = ngEntityManager;
+            return {
+                'extend' : extend,
+                'instance' : instance
+            };
+        };
+        vm.set = set;
     }
+    /**
+    * Main provider.
+    *
+    * @class ngSchema
+    */
+    angular
+        .module('angular-json-schema', ['ui.router'])
+        .provider('ngSchema', [ngSchemaProvider]);
 })();

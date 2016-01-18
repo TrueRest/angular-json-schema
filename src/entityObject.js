@@ -1,9 +1,6 @@
 (function() {
   'use strict';
 
-  angular
-    .module('angular-json-schema')
-    .factory('ngEntityObject', ['ngUtil', ngEntityObjectFactory]);
 
     function ngEntityObjectFactory(ngUtil) {
         return function(attrs){
@@ -62,4 +59,8 @@
             }
         }
     }
+    
+  angular
+    .module('angular-json-schema')
+    .factory('ngEntityObject', ['ngUtil', ngEntityObjectFactory]);
 })();

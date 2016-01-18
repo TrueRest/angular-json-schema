@@ -2,7 +2,7 @@
 var mountFolder;
 
 mountFolder = function(connect, dir) {
-  return connect["static"](require('path').resolve(dir));
+  return connect['static'](require('path').resolve(dir));
 };
 
 module.exports = function(grunt) {
@@ -29,8 +29,8 @@ module.exports = function(grunt) {
         url: '<%= pkg.homepage %>',
         options: {
           paths: '<%= yeoman.src %>',
-          themedir : "node_modules/yuidoc-bootstrap-theme",
-          helpers : ["node_modules/yuidoc-bootstrap-theme/helpers/helpers.js"],
+          themedir : 'node_modules/yuidoc-bootstrap-theme',
+          helpers : ['node_modules/yuidoc-bootstrap-theme/helpers/helpers.js'],
           outdir: 'docs/'
         }
       }

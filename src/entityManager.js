@@ -1,29 +1,19 @@
 (function() {
   'use strict';
-    /**
-    * Manage all the entitys for the template creation, etc...
-    *
-    * @class ngEntityManager
-    */
-
-    angular
-        .module('angular-json-schema')
-        .factory('ngEntityManager', ['$http', 'ngUtil', 'ngEntityObject', ngEntityManagerFactory]);
 
     function ngEntityManagerFactory($http, ngUtil, ngEntityObject) {
         var attrs = {};
         // TO-DO store the objects to make the lib faster
         var storedAttrs = {};
-        var objectRepres = 'properties';
 
         function getInvalidMessage(attr, response) {
-            return 'Please check the json response of (<b>'+ response.config.method +'</b>) <b>' + response.config.url + '</b> has no <b>' + attr + '</b> attribute. <a href="http://json-schema.org/" target="_blank">More info</a>';
+            return 'Please check the json response of (<b>'+ response.config.method +'</b>) <b>' + response.config.url + '</b> has no <b>' + attr + '</b> attribute. <a href="http://json-schema.org/"" target="_blank">More info</a>';
         }
 
         function buildUrl(params){
-            var url = "/schema" + attrs.url;
+            var url = '/schema' + attrs.url;
             angular.forEach(params, function(value, key) {
-                url = url.replace(':' + key, value)
+                url = url.replace(':' + key, value);
             });
             // return url;
             return '/data/pageSchema.json';
@@ -36,14 +26,18 @@
             //Create and redering the templates
             var template = '';
             var props = data.properties;
-            if(props && !props.length) props = ngUtil.bubbleSort(props, 'propertyOrder');
+            if(props && !props.length) {
+              props = ngUtil.bubbleSort(props, 'propertyOrder');
+            }
 
 
             angular.forEach(props, function(value, key){
                 var id = ngUtil.random();
-                template += '<' + value.type + ' ng-schema-id="\''+ id +'\'">';
+                template += '<' + value.type + ' ng-schema-id="' + id +'">';
                     value['parent'] = po;
-                    if(!value['id']) value['id'] = id;
+                    if(!value['id']) {
+                      value['id'] = id;
+                    }
                     template += entitysCreation(value);
                 template += '</'+ value.type + '>';
 
@@ -67,6 +61,15 @@
             },
             'entitysCreation' : entitysCreation,
             'storedAttrs' : storedAttrs
-        }
+        };
     }
+/**
+* Manage all the entitys for the template creation, etc...
+*
+* @class ngEntityManager
+*/
+
+angular
+    .module('angular-json-schema')
+    .factory('ngEntityManager', ['$http', 'ngUtil', 'ngEntityObject', ngEntityManagerFactory]);
 })();
