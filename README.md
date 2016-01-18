@@ -1,7 +1,5 @@
 #Angular JSON Schema
 
-[![Join the chat at https://gitter.im/picheli20/angular-json-schema](https://badges.gitter.im/picheli20/angular-json-schema.svg)](https://gitter.im/picheli20/angular-json-schema?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 #### Create pages and components using JSON Schema and AngularJS!
 ---
 
