@@ -123,7 +123,6 @@
                 });
             },
             'getClass' : function(id){
-                console.log(id);
                 return storedAttrs[id];
             },
             'entitysCreation' : entitysCreation,
