@@ -8,7 +8,6 @@ mountFolder = function(connect, dir) {
 module.exports = function(grunt) {
   var yeomanConfig;
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
-
   yeomanConfig = {
     src: 'src',
     dist: 'dist'
