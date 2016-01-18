@@ -1,8 +1,8 @@
 {
     "project": {
         "name": "angular",
-        "description": "",
-        "version": "0.0.0",
+        "description": "Create pages and components using JSON Schema with AngularJS!",
+        "version": "0.0.1",
         "url": ""
     },
     "files": {
@@ -97,7 +97,7 @@
                 }
             ],
             "return": {
-                "description": "Return a extended",
+                "description": "Return a extended obejct",
                 "type": "Object"
             },
             "class": "ngSchema"

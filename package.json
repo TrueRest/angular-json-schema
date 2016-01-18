@@ -1,6 +1,8 @@
 {
   "name": "angular",
-  "version": "0.0.0",
+  "description" : "Create pages and components using JSON Schema with AngularJS!",
+  "version": "0.0.1",
+  "url": "https://github.com/TrueRest/angular-json-schema",
   "dependencies": {},
   "devDependencies": {
     "grunt": "^0.4.5",
