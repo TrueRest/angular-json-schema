@@ -35,7 +35,7 @@
                 var matchs = [];
                 var re = /{([\s\S]*?)}/gm;
                 var match;
-                
+
                 while (match = re.exec(url)) {
                   matchs.push(match);
                 }

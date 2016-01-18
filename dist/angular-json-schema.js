@@ -12,8 +12,8 @@
 
     function ngSchemaProvider() {
         var em;
-        this.$get = function(entityManager){
-            em = entityManager;
+        this.$get = function(ngEntityManager){
+            em = ngEntityManager;
             return {
                 'extend' : extend,
                 'instance' : instance
@@ -36,7 +36,7 @@
 
         function set(newAttrs) {
             attrs = newAttrs;
-            attrs.templateProvider = ['entityManager', '$stateParams', getTemplate];
+            attrs.templateProvider = ['ngEntityManager', '$stateParams', getTemplate];
             return attrs;
         }
 
@@ -44,11 +44,12 @@
             return !id;
         }
 
-        function getTemplate(entityManager, $stateParams){
-            return entityManager.getLayout(attrs, $stateParams);
+        function getTemplate(ngEntityManager, $stateParams){
+            return ngEntityManager.getLayout(attrs, $stateParams);
         }
     }
 })();
+
 (function() {
   'use strict';
 
@@ -67,9 +68,9 @@
 
   angular
     .module('angular-json-schema')
-    .factory('ngEntityManager', ['$http', 'util', 'ngEntityObject', ngEntityManagerFactory]);
+    .factory('ngEntityManager', ['$http', 'ngUtil', 'ngEntityObject', ngEntityManagerFactory]);
 
-    function ngEntityManagerFactory($http, util, ngEntityObject) {
+    function ngEntityManagerFactory($http, ngUtil, ngEntityObject) {
         var attrs = {};
         // TO-DO store the objects to make the lib faster
         var storedAttrs = {};
@@ -95,17 +96,17 @@
             //Create and redering the templates
             var template = '';
             var props = data.properties;
-            if(props && !props.length) props = util.bubbleSort(props, 'propertyOrder');
-            
-            
+            if(props && !props.length) props = ngUtil.bubbleSort(props, 'propertyOrder');
+
+
             angular.forEach(props, function(value, key){
-                var id = util.random();
+                var id = ngUtil.random();
                 template += '<' + value.type + ' ng-schema-id="\''+ id +'\'">';
                     value['parent'] = po;
                     if(!value['id']) value['id'] = id;
                     template += entitysCreation(value);
                 template += '</'+ value.type + '>';
-                
+
             });
 
             return template;
@@ -130,6 +131,7 @@
         }
     }
 })();
+
 (function() {
   'use strict';
 
@@ -148,11 +150,11 @@
                     create(vm.links[i]);
                 }
 
-            
+
             // Create the abstract methods for the links actions
             function create(link){
                 if(!link.rel){
-                  return;  
+                  return;
                 }
                 vm[link.rel] = function(object){
                     // callback, beforeAction
@@ -195,6 +197,7 @@
         }
     }
 })();
+
 (function() {
   'use strict';
 
@@ -232,7 +235,7 @@
                 var matchs = [];
                 var re = /{([\s\S]*?)}/gm;
                 var match;
-                
+
                 while (match = re.exec(url)) {
                   matchs.push(match);
                 }

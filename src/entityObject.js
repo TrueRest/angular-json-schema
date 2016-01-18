@@ -16,11 +16,11 @@
                     create(vm.links[i]);
                 }
 
-            
+
             // Create the abstract methods for the links actions
             function create(link){
                 if(!link.rel){
-                  return;  
+                  return;
                 }
                 vm[link.rel] = function(object){
                     // callback, beforeAction

@@ -32,8 +32,8 @@
             var template = '';
             var props = data.properties;
             if(props && !props.length) props = ngUtil.bubbleSort(props, 'propertyOrder');
-            
-            
+
+
             angular.forEach(props, function(value, key){
                 var id = ngUtil.random();
                 template += '<' + value.type + ' ng-schema-id="\''+ id +'\'">';
@@ -41,7 +41,7 @@
                     if(!value['id']) value['id'] = id;
                     template += entitysCreation(value);
                 template += '</'+ value.type + '>';
-                
+
             });
 
             return template;

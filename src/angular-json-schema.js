@@ -12,8 +12,8 @@
 
     function ngSchemaProvider() {
         var em;
-        this.$get = function(entityManager){
-            em = entityManager;
+        this.$get = function(ngEntityManager){
+            em = ngEntityManager;
             return {
                 'extend' : extend,
                 'instance' : instance
@@ -36,7 +36,7 @@
 
         function set(newAttrs) {
             attrs = newAttrs;
-            attrs.templateProvider = ['entityManager', '$stateParams', getTemplate];
+            attrs.templateProvider = ['ngEntityManager', '$stateParams', getTemplate];
             return attrs;
         }
 
@@ -44,8 +44,8 @@
             return !id;
         }
 
-        function getTemplate(entityManager, $stateParams){
-            return entityManager.getLayout(attrs, $stateParams);
+        function getTemplate(ngEntityManager, $stateParams){
+            return ngEntityManager.getLayout(attrs, $stateParams);
         }
     }
 })();
