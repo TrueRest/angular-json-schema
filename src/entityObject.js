@@ -26,17 +26,14 @@
                     var requiredError = false;
 
                     if(link.schema && link.schema.required){
-                        //TO-DO check all the field if its Ok
                         for (var i = 0; i < link.schema.required.length; i++) {
                             var label = link.schema.required[i];
                             if(!vm[label]){
                                 console.error('The ' + label + ' attribute is required.');
                                 if(object.validationError) object.validationError(label);
                                 requiredError = true;
-                                // return;
                             }
                         }
-                        console.log('Required infos', link.schema.required);
                     }
 
                     if(!requiredError) makeRequest(link);
@@ -55,11 +52,14 @@
                     var param = params[i];
                     requestURL = requestURL.replace(param[0], vm[param[1]]);
                 }
+
+                console.log(link);
+                //TODO Make que request (POST, GET, PUT, DELETE)
                 console.log('final url', requestURL);
             }
         }
     }
-    
+
   angular
     .module('angular-json-schema')
     .factory('ngEntityObject', ['ngUtil', ngEntityObjectFactory]);

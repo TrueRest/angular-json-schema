@@ -1,5 +1,6 @@
 (function() {
   'use strict';
+    // NOTE Make the documentation
 
     function ngEntityManagerFactory($http, ngUtil, ngEntityObject) {
         var attrs = {};
@@ -16,6 +17,7 @@
                 url = url.replace(':' + key, value);
             });
             // return url;
+            //TODO Fix this URL to change relative.
             return '/data/pageSchema.json';
         }
 
