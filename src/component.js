@@ -1,10 +1,10 @@
 ;(function () {
-  'use strict'
+  'use strict';
   function ngComponentFactory () {
-    return function () {}
+    return function () {};
   }
 
   angular
     .module('angular-json-schema')
-    .factory('ngComponent', [ngComponentFactory])
-})()
+    .factory('ngComponent', [ngComponentFactory]);
+})();

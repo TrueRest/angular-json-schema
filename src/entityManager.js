@@ -1,66 +1,68 @@
 ;(function () {
-  'use strict'
+  'use strict';
 
   function ngEntityManagerFactory ($http, ngUtil, ngEntityObject) {
-    var attrs = {}
+    var attrs = {};
     // TO-DO store the objects to make the lib faster
-    var storedAttrs = {}
+    var storedAttrs = {};
 
     function getInvalidMessage (attr, response) {
-      return 'Please check the json response of (<b>' + response.config.method + '</b>) <b>' + response.config.url + '</b> has no <b>' + attr + '</b> attribute. <a href="http://json-schema.org/"" target="_blank">More info</a>'
+      return 'Please check the json response of (<b>' + response.config.method + '</b>) <b>' + response.config.url + '</b> has no <b>' + attr + '</b> attribute. <a href="http://json-schema.org/"" target="_blank">More info</a>';
     }
 
     function buildUrl (params) {
-      var url = '/schema' + attrs.url
+      var url = '/schema' + attrs.url;
       angular.forEach(params, function (value, key) {
-        url = url.replace(':' + key, value)
-      })
+        url = url.replace(':' + key, value);
+      });
       // return url
-      return '/data/pageSchema.json'
+      return '/data/pageSchema.json';
     }
 
     function entitysCreation (data) {
       // Create the page Object
-      var po = storedAttrs[data.id] = data = new ngEntityObject(data)
+      var po = storedAttrs[data.id] = data = new ngEntityObject(data);
 
       // Create and redering the templates
-      var template = ''
-      var props = data.properties
+      var template = '';
+      var props = data.properties;
       if (props && !props.length) {
-        props = ngUtil.bubbleSort(props, 'propertyOrder')
+        props = ngUtil.bubbleSort(props, 'propertyOrder');
       }
 
       angular.forEach(props, function (value, key) {
-        var id = ngUtil.random()
-        template += '<' + value.type + ' ng-schema-id="\'' + id + '\'">'
-        value['parent'] = po
+        var id = ngUtil.random();
+        template += '<' + value.type + ' ng-schema-id="\'' + id + '\'">';
+        value['parent'] = po;
         if (!value['id']) {
-          value['id'] = id
+          value['id'] = id;
         }
-        template += entitysCreation(value)
-        template += '</' + value.type + '>'
+        template += entitysCreation(value);
+        template += '</' + value.type + '>';
 
-      })
+      });
 
-      return template
+      return template;
     }
 
     return {
       'getLayout': function (attrsNew, $stateParams) {
-        attrs = attrsNew
+        attrs = attrsNew;
         return $http.get(buildUrl($stateParams), {'headers': {'Accept': 'application/json'}}).then(function (response) {
-          if (!response.data.properties) return getInvalidMessage('properties', response)
-          return entitysCreation(response.data)
+          if (!response.data.properties){
+            return getInvalidMessage('properties', response);
+          }
+          return entitysCreation(response.data);
         }, function () {
-          console.error('error')
-        })
+          console.error('error');
+        });
       },
       'getClass': function (id) {
-        return storedAttrs[id]
+        return storedAttrs[id];
       },
       'entitysCreation': entitysCreation,
       'storedAttrs': storedAttrs
-    }
+    };
   }
   /**
   * Manage all the entitys for the template creation, etc...
@@ -70,5 +72,5 @@
 
   angular
     .module('angular-json-schema')
-    .factory('ngEntityManager', ['$http', 'ngUtil', 'ngEntityObject', ngEntityManagerFactory])
-})()
+    .factory('ngEntityManager', ['$http', 'ngUtil', 'ngEntityObject', ngEntityManagerFactory]);
+})();
