@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  // NOTE Make the documentation
+
   angular
     .module('angular-json-schema')
     .factory('ngUtil', [ngUtilFactory]);

@@ -20,7 +20,6 @@
         }
 
         /**
-        * NOTE Make the documentation
         * Instanciate a object and put all the methods
         *
         * @method extend
