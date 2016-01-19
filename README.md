@@ -1,6 +1,8 @@
 #Angular JSON Schema
 **This is a experimental (alpha) package, do not use it for production, api is expected to change**
 
+![alt tag](https://raw.githubusercontent.com/TrueRest/angular-json-schema/197eafe727db437986f43c1831da5038d675a321/angular-json-schema.png)
+
 [![Join the chat at https://gitter.im/TrueRest/angular-json-schema](https://badges.gitter.im/TrueRest/angular-json-schema.svg)](https://gitter.im/TrueRest/angular-json-schema?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 #### Create pages and components using JSON Schema and AngularJS!
@@ -103,7 +105,7 @@ All the components controllers need to use `'ngSchema'` factory to instance a cl
 function balance($scope, balanceObj, ngSchema) {
   var vm = this;
   vm.balance = ngSchema.instance(balanceObj, vm.ngRestId);
-} 
+}
 ```
 
 Once you have your component class, you can make the requisition (create, search), on you json you need to have the JSON Hyper-Schema. Like the example:
