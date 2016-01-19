@@ -1,4 +1,4 @@
--> ![alt tag](https://raw.githubusercontent.com/TrueRest/angular-json-schema/197eafe727db437986f43c1831da5038d675a321/angular-json-schema.png) <-
+![alt tag](https://raw.githubusercontent.com/TrueRest/angular-json-schema/197eafe727db437986f43c1831da5038d675a321/angular-json-schema.png){align:center}
 
 #Angular JSON Schema
 **This is a experimental (alpha) package, do not use it for production, api is expected to change**
