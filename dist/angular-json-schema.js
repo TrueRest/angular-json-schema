@@ -5,58 +5,51 @@
  */
 (function() {
   'use strict';
-    /**
-    * This is the description for my class.
-    *
-    * @class ngSchema
-    * @constructor
-    */
-    angular
-        .module('angular-json-schema', ['ui.router'])
-        .provider('ngSchema', [ngSchemaProvider]);
 
     function ngSchemaProvider() {
         var em;
-        this.$get = function(ngEntityManager){
-            em = ngEntityManager;
-            return {
-                'extend' : extend,
-                'instance' : instance
-            };
-        };
-
-        this.set = set;
-        /**
-        * My property description.  Like other pieces of your comment blocks,
-        * this can span multiple lines.
-        *
-        * @property propertyName
-        * @type {Object}
-        * @default "foo"
-        */
+        var vm = this;
         var attrs = {};
 
-        /**
-        * My method description.  Like other pieces of your comment blocks,
-        * this can span multiple lines.
-        *
-        * @method methodName
-        * @param {String} foo Argument 1
-        * @param {Object} config A config object
-        * @param {String} config.name The name on the config object
-        * @param {Function} config.callback A callback function on the config object
-        * @param {Boolean} [extra=false] Do extra, optional work
-        * @return {Boolean} Returns true on success
-        */
-        function instance (object, id) {
-            if(validateId(id)) return {};
-            var instance = new object();
-            return extend(instance, id);
+        function getTemplate(ngEntityManager, $stateParams){
+            return ngEntityManager.getLayout(attrs, $stateParams);
         }
 
+        function validateId(id){
+            return !id;
+        }
+
+        /**
+        * NOTE Make the documentation
+        * Instanciate a object and put all the methods
+        *
+        * @method extend
+        * @param {Object} buildedClass A instanced object.
+        * @param {id} id The ng-schema-id value of the component
+        * @return {Object} Return a extended obejct
+        */
+
         function extend (buildedClass, id) {
-            if(validateId(id)) return {};
+            if(validateId(id)){
+                return {};
+            }
             return angular.extend(buildedClass, em.getClass(id));
+        }
+
+        /**
+        * Instanciate a object and put all the methods
+        *
+        * @method instance
+        * @param {Object} object A object to be instanced
+        * @param {id} id The ng-schema-id value of the component
+        * @return {Object} Return a instanced class with all the methods
+        */
+        function instance (Object, id) {
+            if(validateId(id)){
+              return {};
+            }
+            var instance = new Object({});
+            return extend(instance, id);
         }
 
         function set(newAttrs) {
@@ -65,77 +58,58 @@
             return attrs;
         }
 
-        function validateId(id){
-            return !id;
-        }
 
-        function getTemplate(ngEntityManager, $stateParams){
-            return ngEntityManager.getLayout(attrs, $stateParams);
-        }
+        vm.$get = function(ngEntityManager){
+            em = ngEntityManager;
+            return {
+                'extend' : extend,
+                'instance' : instance
+            };
+        };
+        vm.set = set;
     }
+    /**
+    * Main provider.
+    *
+    * @class ngSchema
+    */
+    angular
+        .module('angular-json-schema', ['ui.router'])
+        .provider('ngSchema', [ngSchemaProvider]);
 })();
 
 (function() {
   'use strict';
-  /**
-  * This is the description for my class.
-  *
-  * @class ngComponent
-  * @constructor
-  */
-
-  angular
-    .module('angular-json-schema')
-    .factory('ngComponent', [ngComponentFactory]);
-
-    /**
-    * My method description.  Like other pieces of your comment blocks,
-    * this can span multiple lines.
-    *
-    * @method methodName
-    * @param {String} foo Argument 1
-    * @param {Object} config A config object
-    * @param {String} config.name The name on the config object
-    * @param {Function} config.callback A callback function on the config object
-    * @param {Boolean} [extra=false] Do extra, optional work
-    * @return {Boolean} Returns true on success
-    */
     function ngComponentFactory() {
         return function(){
-            var self = this;
-        }
+        };
     }
+
+angular
+    .module('angular-json-schema')
+    .factory('ngComponent', [ngComponentFactory]);
 })();
 
 (function() {
   'use strict';
-    /**
-    * This is the description for my class.
-    *
-    * @class ngEntityManager
-    * @constructor
-    */
-
-    angular
-        .module('angular-json-schema')
-        .factory('ngEntityManager', ['$http', 'ngUtil', 'ngEntityObject', ngEntityManagerFactory]);
+    // NOTE Make the documentation
 
     function ngEntityManagerFactory($http, ngUtil, ngEntityObject) {
         var attrs = {};
         // TO-DO store the objects to make the lib faster
         var storedAttrs = {};
-        var objectRepres = 'properties';
 
         function getInvalidMessage(attr, response) {
-            return 'Please check the json response of (<b>'+ response.config.method +'</b>) <b>' + response.config.url + '</b> has no <b>' + attr + '</b> attribute. <a href="http://json-schema.org/" target="_blank">More info</a>';
+            return 'Please check the json response of (<b>'+ response.config.method +'</b>) <b>' + response.config.url + '</b> has no <b>' + attr + '</b> attribute. <a href="http://json-schema.org/"" target="_blank">More info</a>';
         }
 
         function buildUrl(params){
-            var url = "/schema" + attrs.url;
+            var url = '/schema' + attrs.url;
             angular.forEach(params, function(value, key) {
-                url = url.replace(':' + key, value)
+                url = url.replace(':' + key, value);
             });
             // return url;
+            //TODO Fix this URL to change relative.
             return '/data/pageSchema.json';
         }
 
@@ -146,14 +120,18 @@
             //Create and redering the templates
             var template = '';
             var props = data.properties;
-            if(props && !props.length) props = ngUtil.bubbleSort(props, 'propertyOrder');
+            if(props && !props.length) {
+              props = ngUtil.bubbleSort(props, 'propertyOrder');
+            }
 
 
             angular.forEach(props, function(value, key){
                 var id = ngUtil.random();
-                template += '<' + value.type + ' ng-schema-id="\''+ id +'\'">';
+                template += '<' + value.type + ' ng-schema-id="' + id +'">';
                     value['parent'] = po;
-                    if(!value['id']) value['id'] = id;
+                    if(!value['id']) {
+                      value['id'] = id;
+                    }
                     template += entitysCreation(value);
                 template += '</'+ value.type + '>';
 
@@ -177,79 +155,87 @@
             },
             'entitysCreation' : entitysCreation,
             'storedAttrs' : storedAttrs
-        }
+        };
     }
+/**
+* Manage all the entitys for the template creation, etc...
+*
+* @class ngEntityManager
+*/
+
+angular
+    .module('angular-json-schema')
+    .factory('ngEntityManager', ['$http', 'ngUtil', 'ngEntityObject', ngEntityManagerFactory]);
 })();
 
 (function() {
   'use strict';
+  function ngEntityObjectFactory(ngUtil) {
+    return function(attrs){
+      var vm = this;
+      angular.extend(vm, attrs);
 
+      if(vm.links)
+        for (var i = 0; i < vm.links.length; i++){
+          // ngEntityObject.entitysCreation(link);
+          create(vm.links[i]);
+        }
+
+
+      // Create the abstract methods for the links actions
+      function create(link){
+          if(!link.rel){
+            return;
+          }
+          vm[link.rel] = function(object){
+            var self = this;
+            // callback, beforeAction
+            if(object.beforeAction) object.beforeAction();
+
+            var requiredError = false;
+
+            if(link.schema && link.schema.required){
+              for (var i = 0; i < link.schema.required.length; i++) {
+                var label = link.schema.required[i];
+                if(!self[label]){
+                  console.error('The ' + label + ' attribute is required.');
+                  if(object.validationError) object.validationError(label);
+                  requiredError = true;
+                }
+              }
+            }
+
+            if(!requiredError) makeRequest(link);
+
+            if(object.callback) object.callback();
+          }
+      }
+
+      function makeRequest(link){
+        if(!link.href) return;
+        var requestURL = link.href;
+
+        if(!link.method) link.method = 'GET';
+        var params = ngUtil.parseURL(link.href);
+        for (var i = 0; i < params.length; i++) {
+            var param = params[i];
+            requestURL = requestURL.replace(param[0], vm[param[1]]);
+        }
+
+        console.log(link);
+        //TODO Make que request (POST, GET, PUT, DELETE)
+        console.log('final url', requestURL);
+      }
+    }
+  }
   angular
     .module('angular-json-schema')
     .factory('ngEntityObject', ['ngUtil', ngEntityObjectFactory]);
-
-    function ngEntityObjectFactory(ngUtil) {
-        return function(attrs){
-            var vm = this;
-            angular.extend(vm, attrs);
-
-            if(vm.links)
-                for (var i = 0; i < vm.links.length; i++){
-                    // ngEntityObject.entitysCreation(link);
-                    create(vm.links[i]);
-                }
-
-
-            // Create the abstract methods for the links actions
-            function create(link){
-                if(!link.rel){
-                  return;
-                }
-                vm[link.rel] = function(object){
-                    // callback, beforeAction
-                    if(object.beforeAction) object.beforeAction();
-
-                    var requiredError = false;
-
-                    if(link.schema && link.schema.required){
-                        //TO-DO check all the field if its Ok
-                        for (var i = 0; i < link.schema.required.length; i++) {
-                            var label = link.schema.required[i];
-                            if(!vm[label]){
-                                console.error('The ' + label + ' attribute is required.');
-                                if(object.validationError) object.validationError(label);
-                                requiredError = true;
-                                // return;
-                            }
-                        }
-                        console.log('Required infos', link.schema.required);
-                    }
-
-                    if(!requiredError) makeRequest(link);
-
-                    if(object.callback) object.callback();
-                }
-            }
-
-            function makeRequest(link){
-                if(!link.href) return;
-                var requestURL = link.href;
-
-                if(!link.method) link.method = 'GET';
-                var params = ngUtil.parseURL(link.href);
-                for (var i = 0; i < params.length; i++) {
-                    var param = params[i];
-                    requestURL = requestURL.replace(param[0], vm[param[1]]);
-                }
-                console.log('final url', requestURL);
-            }
-        }
-    }
 })();
 
 (function() {
   'use strict';
-
+  // NOTE Make the documentation
   angular
     .module('angular-json-schema')
     .factory('ngUtil', [ngUtilFactory]);
