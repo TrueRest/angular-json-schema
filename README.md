@@ -1,6 +1,4 @@
 ![alt tag](https://raw.githubusercontent.com/TrueRest/angular-json-schema/197eafe727db437986f43c1831da5038d675a321/angular-json-schema.png)
-
-#Angular JSON Schema
 **This is a experimental (alpha) package, do not use it for production, api is expected to change**
 
 [![Join the chat at https://gitter.im/TrueRest/angular-json-schema](https://badges.gitter.im/TrueRest/angular-json-schema.svg)](https://gitter.im/TrueRest/angular-json-schema?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
