@@ -33,7 +33,7 @@
 
             angular.forEach(props, function(value, key){
                 var id = ngUtil.random();
-                template += '<' + value.type + ' ng-schema-id="' + id +'">';
+                template += "<" + value.type + " ng-schema-id=\"'"+ id +"'\">";
                     value['parent'] = po;
                     if(!value['id']) {
                       value['id'] = id;
