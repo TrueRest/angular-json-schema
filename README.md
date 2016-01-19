@@ -1,4 +1,6 @@
-![alt tag](https://raw.githubusercontent.com/TrueRest/angular-json-schema/197eafe727db437986f43c1831da5038d675a321/angular-json-schema.png)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/TrueRest/angular-json-schema/197eafe727db437986f43c1831da5038d675a321/angular-json-schema.png">
+</p>
 
 **This is a experimental (alpha) package, do not use it for production, api is expected to change**
 
