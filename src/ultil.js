@@ -45,6 +45,13 @@
         }
 
         return matchs;
+      },
+      'mergeUrl' : function(params, requestURL, vm){
+        for (var i = 0; i < params.length; i++) {
+          var param = params[i];
+          requestURL = requestURL.replace(param[0], vm[param[1]]);
+        }
+        return requestURL;
       }
     };
   }
