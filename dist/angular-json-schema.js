@@ -176,30 +176,22 @@
        * Make the interpretation of the LINK of a object.
        *
        * Link example:
-       *
+       * @example
+       * <pre>
        *"links" : [
-       *
        *  {
        *
        *    "rel" : "", //Could be anything, its the relative action of this link
-       *
        *    "href" : "", // Its the url of the action
-       *
        *    "mediaType" : "external",
-       *
        *    "stateGo" : "home", // A state to go, if its no setted, the link will open in new window
-       *
        *    "method" : "PUT",
-       *
        *    "schema" : {
-       *
        *      "required": [ ] //Array of the requireds elements of the schema object
-       *
        *    }
-       *
        *  }
-       *
        *]
+       *</pre>
        *
        * @method makeRequest
        * @param {Object} Link A link valid object.
@@ -211,7 +203,10 @@
         if (!link.href){
           return;
         }
-        var requestURL = link.href;
+        var request = {
+          headers : {}
+        };
+        request.url = link.href;
         var mediaType = link.mediaType;
 
         // If its a external link
@@ -219,7 +214,7 @@
           if(link.stateGo){
             $state.go(link.stateGo);
           }else{
-            $window.open(requestURL);
+            $window.open(request.url);
           }
           return;
         }
@@ -227,45 +222,66 @@
         if (!link.method){
           link.method = 'GET';
         }
+        request.method = link.method;
 
-        requestURL = ngUtil.mergeUrl(ngUtil.parseURL(requestURL), requestURL, vm);
+        if(!link.encType){
+          link.encType = 'application/json';
+        }
+        request.headers['Content-Type'] = link.encType;
 
+        request.url = ngUtil.mergeUrl(ngUtil.parseURL(request.url), request.url, vm);
 
         if(callback){
           callback();
         }
-
-        return $http({
-          method: link.method,
-          url: requestURL
-        });
+        // TODO check if has no params and put the params
+        return $http(request);
       }
 
       /**
-       * Make the validation of the schema attributes according http://tools.ietf.org/html/draft-fge-json-schema-validation-00.
+       * Make the validation the field according http://tools.ietf.org/html/draft-fge-json-schema-validation-00.
+       *
+       * TODO Make the validations of all the schema
+       * @method validateField
+       * @param {Object} scope A scope with the attributes.
+       * @param {field} Schema The field to be validate.
+       * @param {Function} validationError A callback function if has same error.
+       * @return {Boolean} Return false if its all ok or true if has same error.
+       */
+
+      // TODO check all the field if its Ok according http://tools.ietf.org/html/draft-fge-json-schema-validation-00.
+      function validateField(scope, field, validationError){
+        var hasError = false;
+        if(!scope[field]){
+          hasError = true;
+        }
+        if (validationError && hasError){
+          validationError(field);
+        }
+        return hasError;
+      }
+
+      /**
+       * Check and call validateField for each field.
        *
        * TODO Make the validations of all the schema
        * @method validateSchema
        * @param {Object} Schema A schema valid object.
        * @param {Function} validationError A callback function if has same error.
-       * @return {Boolean} Return if its all on or has same error.
+       * @param {Object} self A scope with the attributes.
+       * @return {Boolean} Return false if its all ok or true if has same error.
        */
       function validateSchema(schema, validationError, self){
-        var requiredError = false;
+        var hasError = false;
         if (schema && schema.required) {
-          // TODO check all the field if its Ok
           for (var i = 0; i < schema.required.length; i++) {
-            var label = schema.required[i];
-            if (!self[label]) {
-              requiredError = true;
-              if (validationError){
-                validationError(label);
-              }
+            hasError = validateField(self, schema.required[i], validationError);
+            if(hasError){
+              break;
             }
           }
-          console.log('Required infos', schema.required);
         }
-        return requiredError;
+        return hasError;
       }
 
       // Create the abstract methods for the links actions
@@ -280,9 +296,7 @@
             object.beforeAction();
           }
 
-          var requiredError = validateSchema(link.schema, object.validationError, self);
-
-          if (!requiredError){
+          if (!validateSchema(link.schema, object.validationError, self)){
             return makeRequest(link, object.callback);
           }
         };
