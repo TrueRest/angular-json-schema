@@ -84,13 +84,13 @@
        * @param {Function} validationError A callback function if has same error.
        * @return {Boolean} Return if its all on or has same error.
        */
-      function validateSchema(schema, validationError){
+      function validateSchema(schema, validationError, self){
         var requiredError = false;
         if (schema && schema.required) {
           // TODO check all the field if its Ok
           for (var i = 0; i < schema.required.length; i++) {
             var label = schema.required[i];
-            if (!vm[label]) {
+            if (!self[label]) {
               requiredError = true;
               if (validationError){
                 validationError(label);
@@ -108,12 +108,13 @@
           return;
         }
         vm[link.rel] = function (object) {
+          var self = this;
           // callback, beforeAction
           if (object.beforeAction){
             object.beforeAction();
           }
 
-          var requiredError = validateSchema(link.schema, object.validationError);
+          var requiredError = validateSchema(link.schema, object.validationError, self);
 
           if (!requiredError){
             return makeRequest(link, object.callback);
