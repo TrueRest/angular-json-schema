@@ -1,11 +1,10 @@
-;/*
+/*
  * Angular Rest Route
  * Work with Angular UI Router (https://github.com/angular-ui/ui-router)
  * Created by: Fábio Picheli (github.com/picheli20)
  */
 (function() {
   'use strict';
-
   function ngSchemaProvider() {
     var em;
     var vm = this;
