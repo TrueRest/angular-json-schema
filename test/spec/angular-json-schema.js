@@ -1,20 +1,16 @@
 'use strict';
 
-describe('Controller: MainCtrl', function () {
+describe('Provider: angular-json-schema', function () {
 
   // load the controller's module
-  // beforeEach(module('gruntAnguarlApp'));
-  //
-  // var MainCtrl,
-  //   scope;
-  //
-  // // Initialize the controller and a mock scope
-  // beforeEach(inject(function ($controller, $rootScope) {
-  //   scope = $rootScope.$new();
-  //   MainCtrl = $controller('MainCtrl', {
-  //     $scope: scope
-  //   });
-  // }));
+  beforeEach(module('angular-json-schema'));
+
+  var schemaProvider;
+
+  // Initialize the controller and a mock scope
+  beforeEach(module(function (ngSchemaProvider) {
+    schemaProvider = ngSchemaProvider;
+  }));
 
   it('should be true', function () {
     expect(3).toBe(3);
