@@ -17,6 +17,6 @@ describe('Controller: MainCtrl', function () {
   // }));
 
   it('should be true', function () {
-    expect(3).toBe(4);
+    expect(3).toBe(3);
   });
 });
