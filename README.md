@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/TrueRest/angular-json-schema/197eafe727db437986f43c1831da5038d675a321/angular-json-schema.png" />
+  <img src="https://raw.githubusercontent.com/TrueRest/angular-json-schema/197eafe727db437986f43c1831da5038d675a321/angular-json-schema.png" width="300px"/>
   <p align="center">This is a experimental (alpha) package, do not use it for production, api is expected to change</p>
 </p>
 
