@@ -34,6 +34,17 @@ module.exports = function(grunt) {
           outdir: 'docs/'
         }
       }
+    },
+    // Test settings
+    karma: {
+      unit: {
+        configFile: 'test/karma.conf.js'
+      }
     }
-  }, grunt.registerTask('doc', ['yuidoc']), grunt.registerTask('default', ['doc', 'concat']));
+  },
+
+    grunt.registerTask('doc', ['yuidoc']),
+    grunt.registerTask('default', ['doc', 'concat']),
+    grunt.registerTask('test', ['karma'])
+  );
 };

@@ -1,6 +1,6 @@
 {
   "name": "angular",
-  "description" : "Create pages and components using JSON Schema with AngularJS!",
+  "description": "Create pages and components using JSON Schema with AngularJS!",
   "version": "0.0.1",
   "url": "https://github.com/TrueRest/angular-json-schema",
   "dependencies": {},
@@ -9,7 +9,13 @@
     "grunt-contrib-concat": "^0.5.1",
     "grunt-contrib-copy": "~0.8.2",
     "grunt-contrib-yuidoc": "^0.10.0",
+    "grunt-karma": "^0.12.1",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.19",
+    "karma-jasmine": "^0.3.6",
+    "karma-phantomjs-launcher": "^0.2.3",
     "matchdep": "*",
+    "phantomjs": "^1.9.19",
     "yuidoc-bootstrap-theme": "*"
   }
 }
