@@ -1,11 +1,10 @@
-;/*
+/*
  * Angular Rest Route
  * Work with Angular UI Router (https://github.com/angular-ui/ui-router)
  * Created by: Fábio Picheli (github.com/picheli20)
  */
 (function() {
   'use strict';
-
   function ngSchemaProvider() {
     var em;
     var vm = this;
@@ -119,12 +118,12 @@
         props = ngUtil.bubbleSort(props, 'propertyOrder');
       }
 
-      angular.forEach(props, function (value, key) {
+      angular.forEach(props, function (value) {
         var id = ngUtil.random();
         template += '<' + value.type + ' ng-schema-id="\'' + id + '\'">';
-        value['parent'] = po;
-        if (!value['id']) {
-          value['id'] = id;
+        value.parent = po;
+        if (!value.id) {
+          value.id = id;
         }
         template += entitysCreation(value);
         template += '</' + value.type + '>';
@@ -141,7 +140,8 @@
           if (!response.data.properties){
             return getInvalidMessage('properties', response);
           }
-          return entitysCreation(response.data);
+          // TODO change the rest-json-schema to me dynamic
+          return entitysCreation(rest.convertResource('rest-json-schema', response.data));
         }, function () {
           console.error('error');
         });
@@ -178,7 +178,7 @@
        * Link example:
        * @example
        * <pre>
-       *"links" : [
+       *"actions" : [
        *  {
        *
        *    "rel" : "", //Could be anything, its the relative action of this link
@@ -203,30 +203,25 @@
         if (!link.href){
           return;
         }
-        var request = {
-          headers : {}
-        };
-        request.url = link.href;
+
         var mediaType = link.mediaType;
 
         // If its a external link
-        if(mediaType && mediaType == 'external'){
+        if(mediaType && mediaType === 'external'){
           if(link.stateGo){
             $state.go(link.stateGo);
           }else{
-            $window.open(request.url);
+            $window.open(link.href);
           }
           return;
         }
 
-        if (!link.method){
-          link.method = 'GET';
-        }
+        // Create the request
+        var request = {
+          headers : {}
+        };
+        request.url = link.href;
         request.method = link.method;
-
-        if(!link.encType){
-          link.encType = 'application/json';
-        }
         request.headers['Content-Type'] = link.encType;
 
         request.url = ngUtil.mergeUrl(ngUtil.parseURL(request.url), request.url, vm);
@@ -284,7 +279,7 @@
         return hasError;
       }
 
-      // Create the abstract methods for the links actions
+      // Create the abstract methods for the actions actions
       function create (link) {
         if (!link.rel) {
           return;
@@ -303,10 +298,10 @@
       }
 
       // Create methods
-      if (vm.links){
-        for (var i = 0; i < vm.links.length; i++) {
+      if (vm.actions){
+        for (var i = 0; i < vm.actions.length; i++) {
           // ngEntityObject.entitysCreation(link)
-          create(vm.links[i]);
+          create(vm.actions[i]);
         }
       }
     };
@@ -322,18 +317,14 @@
     .factory('ngEntityObject', ['ngUtil', '$state', '$window', '$http', ngEntityObjectFactory]);
 })();
 
-;(function () {
+(function () {
   'use strict';
-
-  angular
-    .module('angular-json-schema')
-    .factory('ngUtil', [ngUtilFactory])
 
   function ngUtilFactory () {
     return {
       'bubbleSort': function (object, property) {
         var array = [];
-        angular.forEach(object, function (value, key) {
+        angular.forEach(object, function (value) {
           this.push(value);
         }, array);
 
@@ -379,4 +370,9 @@
       }
     };
   }
+
+
+  angular
+    .module('angular-json-schema')
+    .factory('ngUtil', [ngUtilFactory]);
 })();
