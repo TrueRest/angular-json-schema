@@ -12,7 +12,7 @@
        * Link example:
        * @example
        * <pre>
-       *"links" : [
+       *"actions" : [
        *  {
        *
        *    "rel" : "", //Could be anything, its the relative action of this link
@@ -37,30 +37,25 @@
         if (!link.href){
           return;
         }
-        var request = {
-          headers : {}
-        };
-        request.url = link.href;
+
         var mediaType = link.mediaType;
 
         // If its a external link
-        if(mediaType && mediaType == 'external'){
+        if(mediaType && mediaType === 'external'){
           if(link.stateGo){
             $state.go(link.stateGo);
           }else{
-            $window.open(request.url);
+            $window.open(link.href);
           }
           return;
         }
 
-        if (!link.method){
-          link.method = 'GET';
-        }
+        // Create the request
+        var request = {
+          headers : {}
+        };
+        request.url = link.href;
         request.method = link.method;
-
-        if(!link.encType){
-          link.encType = 'application/json';
-        }
         request.headers['Content-Type'] = link.encType;
 
         request.url = ngUtil.mergeUrl(ngUtil.parseURL(request.url), request.url, vm);
@@ -118,7 +113,7 @@
         return hasError;
       }
 
-      // Create the abstract methods for the links actions
+      // Create the abstract methods for the actions actions
       function create (link) {
         if (!link.rel) {
           return;
@@ -137,10 +132,10 @@
       }
 
       // Create methods
-      if (vm.links){
-        for (var i = 0; i < vm.links.length; i++) {
+      if (vm.actions){
+        for (var i = 0; i < vm.actions.length; i++) {
           // ngEntityObject.entitysCreation(link)
-          create(vm.links[i]);
+          create(vm.actions[i]);
         }
       }
     };

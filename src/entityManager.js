@@ -30,12 +30,12 @@
         props = ngUtil.bubbleSort(props, 'propertyOrder');
       }
 
-      angular.forEach(props, function (value, key) {
+      angular.forEach(props, function (value) {
         var id = ngUtil.random();
         template += '<' + value.type + ' ng-schema-id="\'' + id + '\'">';
-        value['parent'] = po;
-        if (!value['id']) {
-          value['id'] = id;
+        value.parent = po;
+        if (!value.id) {
+          value.id = id;
         }
         template += entitysCreation(value);
         template += '</' + value.type + '>';
@@ -52,7 +52,8 @@
           if (!response.data.properties){
             return getInvalidMessage('properties', response);
           }
-          return entitysCreation(response.data);
+          // TODO change the rest-json-schema to me dynamic
+          return entitysCreation(rest.convertResource('rest-json-schema', response.data));
         }, function () {
           console.error('error');
         });

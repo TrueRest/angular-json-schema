@@ -1,15 +1,11 @@
-;(function () {
+(function () {
   'use strict';
-
-  angular
-    .module('angular-json-schema')
-    .factory('ngUtil', [ngUtilFactory])
 
   function ngUtilFactory () {
     return {
       'bubbleSort': function (object, property) {
         var array = [];
-        angular.forEach(object, function (value, key) {
+        angular.forEach(object, function (value) {
           this.push(value);
         }, array);
 
@@ -55,4 +51,9 @@
       }
     };
   }
+
+
+  angular
+    .module('angular-json-schema')
+    .factory('ngUtil', [ngUtilFactory]);
 })();

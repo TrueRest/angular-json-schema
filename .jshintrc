@@ -18,5 +18,11 @@
     "strict": true,
     "trailing": true,
     "smarttabs": true,
-    "white": true
+    "white": true,
+    "globals": {
+        "grunt": false,
+        "rest" : false,
+        "angular" : false,
+        "btoa" : false
+    }
 }
